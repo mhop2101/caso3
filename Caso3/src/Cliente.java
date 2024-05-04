@@ -10,6 +10,7 @@ public class Cliente {
     public static final int PUERTO = 3400;
 	public static final String SERVIDOR = "localhost";
 
+    //Creacion del main convencional
     public static void main(String[] args) throws IOException {
 		Socket socket = null;
 		PrintWriter escritor = null;
@@ -30,4 +31,6 @@ public class Cliente {
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
     }
 
+
+    //
 }
