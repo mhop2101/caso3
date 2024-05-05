@@ -1,9 +1,17 @@
 import java.math.BigInteger;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -50,9 +58,21 @@ public class CifrarDecifrar {
             textoCifrado = cifrador.doFinal(hash);
             return textoCifrado;
         } catch (Exception e) {
-            System.out.println("Exception AES sencillo: " + e.getMessage());
+            System.out.println("Exception: " + e.getMessage());
             return null;
         }
+    }
+
+    public static byte[] CifrarSimetrico(SecretKey llave, String iv, byte[] texto) throws IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException{
+        byte[] datoCifrado;
+
+        Cipher cipher = Cipher.getInstance(PADDING);
+        SecretKey sk = llave;
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
+        cipher.init(Cipher.ENCRYPT_MODE, sk, ivParameterSpec);
+        datoCifrado = cipher.doFinal(texto);
+
+        return datoCifrado;
     }
     
     public static byte[] DescifrarAES(Key llave, byte[] texto){
@@ -67,6 +87,17 @@ public class CifrarDecifrar {
             System.out.println("Exception decifrar : " + e.getMessage());
             return null;
         }
+        return textoClaro;
+    }
+
+    public static byte[] DescifrarSimetrico(SecretKey llave, String iv, byte[] texto) throws IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
+        byte[] textoClaro;
+
+        Cipher cipher = Cipher.getInstance(PADDING);
+        SecretKey sk = llave;
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
+        cipher.init(Cipher.DECRYPT_MODE, sk, ivParameterSpec);
+        textoClaro = cipher.doFinal(texto);
         return textoClaro;
     }
 
