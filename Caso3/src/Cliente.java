@@ -18,7 +18,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 
 
-
 public class Cliente {
     public static final int PUERTO = 3400;
 	public static final String SERVIDOR = "localhost";
@@ -123,7 +122,7 @@ public class Cliente {
         System.out.println("Reto recibido y decifrado: " + retoDecifrado + "\n");
         long tiempoFinal = System.currentTimeMillis();
         long tiempoTotal = tiempoFinal - tiempoInicial;
-        System.out.println("########## Tiempo total para decifrar reto: " + tiempoTotal + " ms \n");
+        System.out.println("########## Tiempo total para verificar la firma: " + tiempoTotal + " ms \n");
         return retoDecifrado;
     }
 
@@ -227,7 +226,7 @@ public class Cliente {
             System.out.println("HMAC Correcto (Paso 21)\n");
             long tiempoFinal = System.currentTimeMillis();
             long tiempoTotal = tiempoFinal - tiempoInicial;
-            System.out.println("########## Tiempo total para verificar HMAC: " + tiempoTotal + " ms \n");
+            System.out.println("########## Tiempo total para generar codigo de autenticacion: " + tiempoTotal + " ms \n");
         } else {
             System.out.println("HMAC Incorrecto (Paso 21)\n");
         }
