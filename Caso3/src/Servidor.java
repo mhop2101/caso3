@@ -24,8 +24,6 @@ public class Servidor {
         privateKey = pair.getPrivate();
         publicKey = pair.getPublic();
 
-        //Conteo de servidores
-        int servidores = 0;
         System.out.println("Main server ...");
 
         try{
@@ -40,7 +38,6 @@ public class Servidor {
             Socket socket  = ss.accept();
             Thread t = new Thread(new ServidorDelegado(socket, privateKey, publicKey));
             t.start();
-            servidores++;
         }
         ss.close();
     }

@@ -9,7 +9,6 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Random;
 
 import javax.crypto.Mac;
@@ -104,7 +103,6 @@ public class Cliente {
     }
 
     private static void paso1(ObjectInputStream pIn, ObjectOutputStream pOut,String numeroAleatorio) throws Exception {
-        long tiempoInicial = System.currentTimeMillis();
         pOut.writeObject(numeroAleatorio);
         System.out.println("Reto enviado: " + numeroAleatorio + "\n");
         

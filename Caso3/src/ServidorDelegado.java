@@ -8,7 +8,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -181,7 +180,6 @@ public class ServidorDelegado extends Thread{
     private void paso19_20(ObjectInputStream pIn, ObjectOutputStream pOut, SecretKey kab1, SecretKey kab2, String iv) throws Exception {
         long tiempoInicial = System.currentTimeMillis();
         byte[] numeroConsultaCifrado = (byte[]) pIn.readObject();
-        byte[] hmac = (byte[]) pIn.readObject();
 
         byte[] numeroConsulta = CifrarDecifrar.DescifrarSimetrico(kab1, iv, numeroConsultaCifrado);
 
