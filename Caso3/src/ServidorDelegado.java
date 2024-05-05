@@ -76,28 +76,35 @@ public class ServidorDelegado extends Thread{
         String g = "2";
         String p = "00dd8922190d814d016f28ad5b7b965b4b8cd7ac3defbe234fb57ed951c30596f648824bef16b4faa3700a5e2304ec0101c72da493d3d6cecfbfdf5b4634bf8fc92a769d7716ca82afdab111da1750c67f256329f69738961804a3f7c68c32716174482dc9bdff08d17ee4530ac3e3f0298104d99799a37acf742a23e1c6611d0f";
         String iv = "9372546801234875";
+        BigInteger x = BigInteger.valueOf(new java.util.Random().nextInt(20));
 
-        BigInteger gBig = new BigInteger(g);
-        BigInteger pBig = new BigInteger(p, 16); 
-        BigInteger x = BigInteger.valueOf(new Random().nextInt(20)); 
-        BigInteger Gx = gBig.modPow(x, pBig);
+        //Generar G^x
+        BigInteger base = new BigInteger(g);
+        BigInteger exponent = x;
+        BigInteger modulus = new BigInteger(p, 16);
+        BigInteger gx = base.modPow(exponent, modulus);
+
 
         //Enviamos g, p, Gx y iv sin cifrar
         pOut.writeObject(g);
         pOut.writeObject(p);
-        // pOut.writeObject(Gx);
-        // pOut.writeObject(iv);
+        pOut.writeObject(gx);
+        pOut.writeObject(iv);
 
-        //Enviamos g y p cifrados
-        // String gp = g + "," + p;
-        // byte[] gpCifrado = CifrarDecifrar.CifrarAES(privateKey, gp, null); 
-        // String gpCifradoHex = CifrarDecifrar.bytesToHex(gpCifrado);
-        // pOut.writeObject(gpCifradoHex);
+        //Enviamos g, p y gx cifrados
+        String pgx = g + ";" + p + ";" + gx.toString();
 
-        // //Enviamos Gx cifrado
-        // byte[] GxCifrado = CifrarDecifrar.CifrarAES(privateKey, Gx.toString(), null);
-        // String GxCifradoHex = CifrarDecifrar.bytesToHex(GxCifrado);
-        // pOut.writeObject(GxCifradoHex);
+        byte[] pgxhash = CifrarDecifrar.stringToHash(pgx);
+        System.out.println("hash pgx" + pgxhash);
+        byte[] pgxcipher = CifrarDecifrar.CifrarAESConHash(privateKey, pgxhash);
+        
+        System.out.println("cifrado pgx" + pgxcipher);
+
+        //Convertirlos en hexa el cifrado
+        String pgxcipherhex = CifrarDecifrar.bytesToHex(pgxcipher);
+        System.out.println("cifrado pgx hex: " + pgxcipherhex);
+        pOut.writeObject(pgxcipherhex);
+        
 
         //Enviar llave publica
         pOut.writeObject(publicKey);

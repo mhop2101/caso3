@@ -79,6 +79,7 @@ public class Cliente {
         byte[] byteDescifrado = CifrarDecifrar.DescifrarAES(publicKey, byteCifrado);
 
         String retoDecifrado = new String(byteDescifrado);
+        System.out.println("Reto decifrado: " + retoDecifrado);
 
         return retoDecifrado;
     }
@@ -86,23 +87,26 @@ public class Cliente {
     public static void paso8(ObjectInputStream pIn, ObjectOutputStream pOut) throws Exception {
         String g = (String) pIn.readObject();
         String p = (String) pIn.readObject();
-        // BigInteger gx = new BigInteger((String) pIn.readObject());
+        BigInteger gx = (BigInteger) pIn.readObject();
         String iv = (String) pIn.readObject();
 
-        // String hexPG = (String) pIn.readObject();
-        // String hexGX = (String) pIn.readObject();
-
+        String hexPGX = (String) pIn.readObject();
+        System.out.println("hexPGX: " + hexPGX);
+        //hasta aqui son iguales
         PublicKey publicKey = (PublicKey) pIn.readObject();
 
-        // byte[] bytePG = CifrarDecifrar.hexToBytes(hexPG);
-        // byte[] byteGX = CifrarDecifrar.hexToBytes(hexGX);
-
-        // byte[] byteDescifradoPG = CifrarDecifrar.DescifrarAES(publicKey, bytePG);
-        // byte[] byteDescifradoGX = CifrarDecifrar.DescifrarAES(publicKey, byteGX);
+        //Decfirar pgx
+        byte[] bytePGX = CifrarDecifrar.hexToBytes(hexPGX);
+        System.out.println("bytePGX: " + bytePGX);
+        byte[] byteDescifradoPGX = CifrarDecifrar.DescifrarAES(publicKey, bytePGX);
+        System.out.println("byteDescifradoPGX: " + byteDescifradoPGX);
+        String strPGX = new String(byteDescifradoPGX);
+        System.out.println("strPGX: " + strPGX);
+        
 
         System.out.println(g);
         System.out.println(p);
-        // System.out.println(gx.toString());
+        System.out.println(gx);
         System.out.println(iv);
         // System.out.println(new String(byteDescifradoPG));
         // System.out.println(new String(byteDescifradoGX));
